@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>betlejem-parent</artifactId>
+        <groupId>me.ugeno.betlejem</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>betlejem-lcalc-tradebot-binance</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>me.ugeno.betlejem</groupId>
+            <artifactId>betlejem-lcalc-evaluation-binance</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>selenium-java</artifactId>
+                    <groupId>org.seleniumhq.selenium</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
+</project>

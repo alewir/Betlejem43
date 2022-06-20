@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <property name="COMPONENT_NAME" value="betlejem-binance-spot"/>
+
+    <property name="CONSOLE_LOG_PATTERN_COLOUR"
+              value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){yellow} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%12.12t]){yellow} %clr(%-20.20logger{19}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+    <property name="FILE_LOG_PATTERN"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%12.12t] %-20.20logger{19} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+
+    <appender name="CONSOLE-APPENDER" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN_COLOUR}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="FILE-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>
+            logs/${COMPONENT_NAME}.log
+        </file>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/${COMPONENT_NAME}.%d{yyyy_MM_dd}.%i.log</fileNamePattern>
+            <maxHistory>2</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <root>
+        <appender-ref ref="CONSOLE-APPENDER"/>
+        <appender-ref ref="FILE-APPENDER"/>
+    </root>
+
+    <logger name="root" level="WARN"/>
+    <logger name="me.ugeno" level="DEBUG"/>
+</configuration>

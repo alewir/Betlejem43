@@ -1,0 +1,58 @@
+version: "2"
+
+networks:
+  kafnet:
+    driver: bridge
+
+services:
+
+  zookeeper:
+    image: docker.io/bitnami/zookeeper:3.8
+    container_name: zookeeper
+    hostname: zookeeper-server
+    networks:
+      - kafnet
+    ports:
+      - "2181:2181"
+    volumes:
+      - "../storage:/bitnami"
+    environment:
+      ZOO_ENABLE_AUTH: "yes"
+
+  kafka:
+    image: docker.io/bitnami/kafka:3.1
+    container_name: kafka
+    hostname: kafka-server
+    networks:
+      - kafnet
+    ports:
+      - "9092:9092"
+      - "9093:9093"
+    volumes:
+      - "../storage/kafka:/bitnami/kafka"
+    environment:
+      KAFKA_BROKER_ID: "1"
+      KAFKA_CFG_ZOOKEEPER_CONNECT: "zookeeper-server:2181"
+      ALLOW_PLAINTEXT_LISTENER: "yes"
+      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: "CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT"
+      KAFKA_CFG_LISTENERS: "CLIENT://:9092,EXTERNAL://:9093"
+      KAFKA_CFG_ADVERTISED_LISTENERS: "CLIENT://kafka-server:9092,EXTERNAL://localhost:9093"
+      KAFKA_CFG_KAFKA_DELETE_TOPIC_ENABLE: "true"
+      KAFKA_INTER_BROKER_LISTENER_NAME: "CLIENT"
+      KAFKA_CFG_LOG_RETENTION_HOURS: "43800"
+    depends_on:
+      - zookeeper
+
+  kafdrop:
+    image: obsidiandynamics/kafdrop:latest
+    container_name: kafdrop
+    hostname: kafdrop-server
+    networks:
+      - kafnet
+    ports:
+      - "9090:9000"
+    environment:
+      KAFKA_BROKERCONNECT: "kafka-server:9092"
+      JVM_OPTS: "-Xms128M -Xmx2048M"
+    depends_on:
+      - kafka

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <appender name="CONSOLE-APPENDER" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %msg%n</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <root>
+        <appender-ref ref="CONSOLE-APPENDER"/>
+    </root>
+
+    <logger name="root" level="WARN"/>
+    <logger name="me.ugeno" level="INFO"/>
+    <logger name="me.ugeno.betlejem.lcalc.tradebot.binance.LcalcTradebot" level="WARN"/>
+    <logger name="me.ugeno.betlejem.lcalc.tradebot.binance.TradebotConfigCalculator" level="DEBUG"/>
+</configuration>
